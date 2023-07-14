@@ -3,6 +3,7 @@ package data
 import (
 	"context"
 	"database/sql"
+	"log"
 
 	"github.com/cheynewallace/tabby"
 	_ "github.com/libsql/libsql-client-go/libsql"
@@ -21,13 +22,17 @@ type Collection struct {
 	Note  string
 }
 
-func InitDB() (*sql.DB, error) {
+func initDB() (*sql.DB, error) {
 	dbURL := util.SetDBURL()
 	db, err := sql.Open("libsql", dbURL)
 	return db, err
 }
 
-func InitTurgo(d *sql.DB) *Turgo {
+func InitTurgo() *Turgo {
+	d, err := initDB()
+	if err != nil {
+		log.Fatal(err)
+	}
 	return &Turgo{
 		db:  d,
 		ctx: context.Background(),
@@ -37,11 +42,11 @@ func InitTurgo(d *sql.DB) *Turgo {
 
 func (t *Turgo) InitTables() error {
 	_, err := t.db.ExecContext(t.ctx,
-		`CREATE TABLE IF NOT EXISTS collection (
+		`CREATE TABLE IF NOT EXISTS collections (
 			ID INT PRIMARY KEY,
 			Topic VARCHAR(255),
-			URL VARCHAR(255),
-			Note VARCHAR(255)
+			URL VARCHAR(1000),
+			Note VARCHAR(500)
 		)`)
 	return err
 }
@@ -49,7 +54,7 @@ func (t *Turgo) InitTables() error {
 func (t *Turgo) CreateCollection(c Collection) error {
 	_, err := t.db.ExecContext(
 		t.ctx,
-		"INSERT INTO collection (ID, Topic, URL, Note) VALUES (?, ?, ?, ?)",
+		"INSERT INTO collections (ID, Topic, URL, Note) VALUES (?, ?, ?, ?)",
 		c.ID, c.Topic, c.URL, c.Note)
 	return err
 }
@@ -57,7 +62,7 @@ func (t *Turgo) CreateCollection(c Collection) error {
 func (t *Turgo) ListTopics() ([]string, error) {
 	var topic string
 	var res []string
-	rows, err := t.db.Query("SELECT Topic FROM collection")
+	rows, err := t.db.Query("SELECT Topic FROM collections")
 	defer rows.Close()
 	for rows.Next() {
 		err := rows.Scan(&topic)
@@ -76,7 +81,7 @@ func (t *Turgo) List() ([]string, []string, []string, error) {
 	var URLs []string
 	var topics []string
 	var notes []string
-	rows, err := t.db.Query("SELECT Topic, URL, Note FROM collection")
+	rows, err := t.db.Query("SELECT Topic, URL, Note FROM collections")
 	defer rows.Close()
 
 	for rows.Next() {
@@ -99,7 +104,7 @@ func (t *Turgo) FilterByTopic(topic string) ([]string, []string, error) {
 	var note string
 	var URLs []string
 	var notes []string
-	rows, err := t.db.Query("SELECT URL, Note FROM collection WHERE Topic LIKE ?", topic)
+	rows, err := t.db.Query("SELECT URL, Note FROM collections WHERE Topic LIKE ?", topic)
 	defer rows.Close()
 	for rows.Next() {
 		err := rows.Scan(&url, &note)
@@ -114,7 +119,7 @@ func (t *Turgo) FilterByTopic(topic string) ([]string, []string, error) {
 
 func (t *Turgo) PurgeCollection(id string) error {
 	_, err := t.db.ExecContext(t.ctx,
-		`DELETE FROM collection WHERE ID = ?`,
+		`DELETE FROM collections WHERE ID = ?`,
 		id)
 	return err
 }

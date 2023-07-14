@@ -25,9 +25,9 @@ var listCmd = &cobra.Command{
 		t.Tb.AddHeader("#", "TOPIC", "NOTE", "URL")
 		for i := 0; i < len(topics); i++ {
 			if len(notes[i]) < 1 {
-				t.Tb.AddLine(i, topics[i], "****", URLs[i])
+				t.Tb.AddLine(i+1, topics[i], "****", URLs[i])
 			} else {
-				t.Tb.AddLine(i, topics[i], notes[i], URLs[i])
+				t.Tb.AddLine(i+1, topics[i], notes[i], URLs[i])
 			}
 		}
 		t.Tb.Print()
@@ -37,7 +37,7 @@ var listCmd = &cobra.Command{
 var filterByTopicCmd = &cobra.Command{
 	Use:     "topic",
 	Short:   "Filter the results based on the topic",
-	Example: "tursgo list topic topic_name",
+	Example: "turgo list topic topic_name",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 1 {
 			log.Fatal("NO TOPIC PARSED")
@@ -49,16 +49,15 @@ var filterByTopicCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
+		t.Tb.AddHeader("#", "NOTE", "URL")
 		for i := 0; i < len(urls); i++ {
-			t.Tb.AddHeader("#", "NOTE", "URL")
 			if len(notes[i]) < 1 {
 				t.Tb.AddLine(i, "****", urls[i])
 			} else {
-				t.Tb.AddLine(i, notes[i], urls[i])
+				t.Tb.AddLine(i+1, notes[i], urls[i])
 			}
 		}
 		t.Tb.Print()
-
 	},
 }
 

@@ -12,7 +12,7 @@ import (
 var newCmd = &cobra.Command{
 	Use:     "new",
 	Short:   "Create a new bookmark",
-	Example: "tursgo new topic_name",
+	Example: "turgo new topic_name",
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 1 {
 			log.Fatal("NO TOPIC PARSED")
@@ -20,7 +20,7 @@ var newCmd = &cobra.Command{
 			log.Fatal("TOO MANY ARGUMENTS.\nTOPICS MUST BE ONE WORD")
 		}
 		u := util.GetInput("URL")
-		note := util.GetInput("A little note")
+		note := util.GetInput("Note")
 		c := &data.Collection{
 			ID:    util.GenerateULID(),
 			Topic: args[0],

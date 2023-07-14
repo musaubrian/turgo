@@ -3,6 +3,7 @@ package cmd
 import (
 	"log"
 
+	"github.com/cheynewallace/tabby"
 	"github.com/spf13/cobra"
 )
 
@@ -15,11 +16,12 @@ var topicsCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
-		t.Tb.AddHeader("#", "TOPICS")
+		tabb := tabby.New()
+		tabb.AddHeader("#", "TOPICS")
 		for i, v := range vals {
-			t.Tb.AddLine(i, v)
+			tabb.AddLine(i, v)
 		}
-		t.Tb.Print()
+		tabb.Print()
 
 	},
 }
