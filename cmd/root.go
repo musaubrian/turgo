@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"log"
 	"os"
 
 	"github.com/musaubrian/turgo/internal/data"
@@ -19,10 +20,7 @@ Save site URLs you want to visit later
 Organize them using topics.
 Since you'll have your own db instance, you can extend it to a web app if you wish
 
-This uses turso(https://turso.tech) for hosting the db.
-
-To get set up, follow the steps here -> https://docs.turso.tech/tutorials/get-started-turso-cli/
-	`,
+This uses turso(https://turso.tech) for hosting the db.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
@@ -32,9 +30,9 @@ To get set up, follow the steps here -> https://docs.turso.tech/tutorials/get-st
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	t = data.InitTurgo()
-	// if err := t.InitTables(); err != nil {
-	// 	log.Fatal(err)
-	// }
+	if err := t.InitTables(); err != nil {
+		log.Fatal(err)
+	}
 	err := rootCmd.Execute()
 	if err != nil {
 		os.Exit(1)
@@ -50,5 +48,5 @@ func init() {
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

@@ -22,7 +22,7 @@ var listCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		t.Tb.AddHeader("#", "TOPIC", "NOTE", "URL")
+		t.Tb.AddHeader("\n#", "TOPIC", "NOTE", "URL")
 		for i := 0; i < len(topics); i++ {
 			if len(notes[i]) < 1 {
 				t.Tb.AddLine(i+1, topics[i], "****", URLs[i])
@@ -49,7 +49,7 @@ var filterByTopicCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
-		t.Tb.AddHeader("#", "NOTE", "URL")
+		t.Tb.AddHeader("\n#", "NOTE", "URL")
 		for i := 0; i < len(urls); i++ {
 			if len(notes[i]) < 1 {
 				t.Tb.AddLine(i, "****", urls[i])

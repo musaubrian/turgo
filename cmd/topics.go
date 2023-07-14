@@ -17,7 +17,7 @@ var topicsCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 		tabb := tabby.New()
-		tabb.AddHeader("#", "TOPICS")
+		tabb.AddHeader("\n#", "TOPICS")
 		for i, v := range vals {
 			tabb.AddLine(i, v)
 		}

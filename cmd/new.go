@@ -31,6 +31,7 @@ var newCmd = &cobra.Command{
 		if err := t.CreateCollection(*c); err != nil {
 			log.Fatal(err)
 		}
+		util.Success("✔️ Added succesfully")
 
 	},
 }

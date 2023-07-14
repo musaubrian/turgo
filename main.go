@@ -8,18 +8,27 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/musaubrian/turgo/cmd"
-	"github.com/musaubrian/turgo/internal/data"
+	"github.com/musaubrian/turgo/internal/util"
 )
 
 func main() {
-	if err := godotenv.Load(".env"); err != nil {
-		log.Fatal(err)
-	}
-	// ensure that the table is created
-	t := data.InitTurgo()
-	if err := t.InitTables(); err != nil {
-		log.Fatal(err)
-
-	}
+	loadEnv()
 	cmd.Execute()
+}
+
+func loadEnv() {
+	envLoc, err := util.GetEnvLoc()
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err := godotenv.Load(envLoc); err != nil {
+		// Create the .env
+		if err := util.CreateEnv(envLoc); err != nil {
+			log.Fatal(err)
+		}
+		/* // Reload the .env
+		if err := godotenv.Load(envLoc); err != nil {
+			log.Fatal(err)
+		} */
+	}
 }
