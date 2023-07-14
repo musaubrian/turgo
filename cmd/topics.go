@@ -16,10 +16,16 @@ var topicsCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
+		shown := make(map[string]bool)
 		tabb := tabby.New()
 		tabb.AddHeader("\n#", "TOPICS")
-		for i, v := range vals {
-			tabb.AddLine(i, v)
+		count := 1
+		for _, v := range vals {
+			if !shown[v] {
+				shown[v] = true
+				tabb.AddLine(count, v)
+				count++
+			}
 		}
 		tabb.Print()
 
