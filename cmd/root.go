@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"log"
 	"os"
 
 	"github.com/musaubrian/turgo/internal/data"
@@ -30,9 +29,7 @@ This uses turso(https://turso.tech) for hosting the db.`,
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	t = data.InitTurgo()
-	if err := t.InitTables(); err != nil {
-		log.Fatal(err)
-	}
+
 	err := rootCmd.Execute()
 	if err != nil {
 		os.Exit(1)

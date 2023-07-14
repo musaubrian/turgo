@@ -8,11 +8,18 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/musaubrian/turgo/cmd"
+	"github.com/musaubrian/turgo/internal/data"
 	"github.com/musaubrian/turgo/internal/util"
 )
 
 func main() {
 	loadEnv()
+
+	t := data.InitTurgo()
+	if err := t.InitTables(); err != nil {
+		log.Fatal(err)
+	}
+
 	cmd.Execute()
 }
 
