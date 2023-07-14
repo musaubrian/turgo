@@ -1,14 +1,15 @@
 # turgo
 > Command line bookmarker
 
-Turgo uses **[turso]**(https://turso.tech) to host your data
+Turgo uses **[Turso](https://turso.tech)** to host your data
 
 ## Install
 <details>
 <summary>Manually</summary>
-
-
+<br/>
+  
 ```bash
+
 git clone https://github.com/musaubrian/turgo
 cd turgo
 
@@ -21,9 +22,11 @@ turgo
 </details>
 
 <details>
-<summary>Using `go install`</summary>
-
+<summary>go install </summary>
+<br/>
+  
 ```bash
+
 go install github.com/musaubrian/turgo@latest
 # run it
 turgo
@@ -33,9 +36,7 @@ turgo
 ### Setup
 > **Note**
 > 
-> You need to have **turso-cli** installed to get the token and db URL
+> You need to have **[turso-cli](https://docs.turso.tech/tutorials/get-started-turso-cli)** installed to get the token and db URL
 
 To configure the environment variables, simply run `turgo` and it'll prompt you
 to enter the required details
-
-You can get them **[here]**(https://docs.turso.tech/tutorials/get-started-turso-cli)
